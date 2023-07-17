@@ -45,6 +45,8 @@ pub fn handler<'info>(
         winners[i] = random;
         winning_mints[i] = Pubkey::find_program_address(&[MINT_SEED.as_ref(), ctx.accounts.config.key().as_ref(), &[winners[i] as u8]], ctx.program_id).0;
     }
+
+    // update config
     ctx.accounts.config.winners = winners;
     ctx.accounts.config.winning_mints = winning_mints;
 

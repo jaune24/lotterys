@@ -109,7 +109,7 @@ pub fn handler<'info>(
     let close_tkt_ctx = CpiContext::new(ctx.accounts.token_program.to_account_info(), cpi_tkt_acc);
     close_account(close_tkt_ctx)?;
 
-    // determine of ticket is a winner
+    // determine if ticket is a winner
     let winning_mints: [Pubkey; 5] = ctx.accounts.config.winning_mints;
     let result = winning_mints.iter().position(|&x| x == signer_mint);
 

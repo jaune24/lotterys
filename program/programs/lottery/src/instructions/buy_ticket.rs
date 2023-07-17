@@ -67,6 +67,7 @@ pub fn handler<'info>(
     if ctx.accounts.config.max_entrants == ctx.accounts.config.current_entrants {
         return Err(ErrorCode::MaxEntrantsReached.into());
     }
+    // ADD config.closed check
 
     // Transfer ticket cost to config_vault from the signer
     let ix = anchor_lang::solana_program::system_instruction::transfer(
@@ -130,8 +131,6 @@ pub fn handler<'info>(
     )?;
 
     // Mint ticket to signer
-    [msg!("tikcet_mint: {}", ctx.accounts.ticket_mint.key())];
-
     let mint_ctx = CpiContext::new_with_signer(ctx.accounts.token_program.to_account_info(),
         MintTo {
             mint: ctx.accounts.ticket_mint.to_account_info(),

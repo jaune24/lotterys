@@ -77,7 +77,7 @@ pub mod lottery {
     }
 
     /// Call this function to redeem your lottery ticket, the signer will be sent the proper amount of winnings (or nothing). Win or lose,
-    /// your ticket token will be burned. 
+    /// your ticket token will be burned and associated token account closed.
     /// 
     /// ### Parameters
     /// NONE
