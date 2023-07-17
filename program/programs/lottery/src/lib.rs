@@ -5,7 +5,7 @@ use anchor_lang::prelude::*;
 use crate::instructions::*;
 
 
-declare_id!("2AejTiqCJ5QxE7VsdF2WhGBVDrCeXmuubjni7jV8DbM7");
+declare_id!("2oYZpVVZ4stDoTtiq4qcgHbcSY4js2RHiBtL1P4pifEV");
 
 #[doc(hidden)]
 mod instructions; 

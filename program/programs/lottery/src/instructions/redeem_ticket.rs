@@ -45,6 +45,7 @@ pub fn handler<'info>(
     ctx: Context<'_, '_, '_,'info, RedeemTicket<'info>>,
 ) -> Result<()> {
     let metadata: Metadata = Metadata::from_account_info(&ctx.accounts.ticket_metadata.to_account_info())?;
+    [msg!("metadata.symbol (ticket_num):{}", metadata.data.symbol)];
     let ticket_number = (metadata.data.symbol).trim_matches(|c: char| c.is_whitespace() || c=='\0').parse::<u64>().unwrap();
     let signer_mint = ctx.accounts.ticket_account_signer.mint;
 

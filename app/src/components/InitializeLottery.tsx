@@ -21,7 +21,7 @@ export const InitializeLottery: FC<LPProps> = ({lottoPubkey, onLottoPubkeyUpdate
     const C_VAULT_SEED = "CVaultSeed";
     const MINT_SEED = "MintSeed";
 
-    console.log("lotto address:", lottoPubkey.toString());
+    console.log("init_lotto- lotto address:", lottoPubkey.toString());
 
     const onClick = useCallback(async () => {
         if (!publicKey) {
@@ -45,6 +45,7 @@ export const InitializeLottery: FC<LPProps> = ({lottoPubkey, onLottoPubkeyUpdate
             [Buffer.from(CONFIG_SEED), publicKey.toBuffer()],
             program.programId
         );
+        console.log(CONFIG_PDA.toString());
         const [C_VAULT_PDA, C_VAULT_BUMP] = PublicKey.findProgramAddressSync(
             [Buffer.from(C_VAULT_SEED), publicKey.toBuffer()],
             program.programId
@@ -66,6 +67,8 @@ export const InitializeLottery: FC<LPProps> = ({lottoPubkey, onLottoPubkeyUpdate
             signature = await sendTransaction(tx, connection);
             
             console.log(tx)
+            
+            onLottoPubkeyUpdated(CONFIG_PDA);
 
             notify({ type: 'success', message: 'Transaction successful!', txid: signature });
         } catch (error: any) {
@@ -73,7 +76,7 @@ export const InitializeLottery: FC<LPProps> = ({lottoPubkey, onLottoPubkeyUpdate
             console.log('error', `Transaction failed! ${error?.message}`, signature);
             return;
         }
-    }, [publicKey, notify, connection, sendTransaction]);
+    }, [publicKey, notify, connection, sendTransaction, lottoPubkey]);
 
     const handleSubmit = (e) => {
         console.log("the data is correctly inserted")

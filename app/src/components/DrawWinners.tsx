@@ -21,6 +21,8 @@ export const DrawWinners: FC<LPProps> = ({lottoPubkey, onLottoPubkeyUpdated}) =>
     const C_VAULT_SEED = "CVaultSeed";
     const MINT_SEED = "MintSeed";
 
+    console.log("draw_winners- lotto address:", lottoPubkey.toString());
+
     const onClick = useCallback(async () => {
         if (!publicKey) {
             notify({ type: 'error', message: `Wallet not connected!` });
@@ -33,12 +35,16 @@ export const DrawWinners: FC<LPProps> = ({lottoPubkey, onLottoPubkeyUpdated}) =>
         const time = await connection.getBlockTime(await connection.getSlot());
         console.log(time);
 
-        const [CONFIG_PDA, CONFIG_BUMP] = PublicKey.findProgramAddressSync(
-            [Buffer.from(CONFIG_SEED), publicKey.toBuffer()],
-            program.programId
-        );
+        // const [CONFIG_PDA, CONFIG_BUMP] = PublicKey.findProgramAddressSync(
+        //     [Buffer.from(CONFIG_SEED), publicKey.toBuffer()],
+        //     program.programId
+        // );
+
+        const CONFIG_PDA = lottoPubkey;
+        const config_acc = await program.account.config.fetch(CONFIG_PDA);
+        console.log(config_acc.authority);
         const [C_VAULT_PDA, C_VAULT_BUMP] = PublicKey.findProgramAddressSync(
-            [Buffer.from(C_VAULT_SEED), publicKey.toBuffer()],
+            [Buffer.from(C_VAULT_SEED), (config_acc.authority as any).toBuffer()],
             program.programId
         );
 
@@ -63,7 +69,7 @@ export const DrawWinners: FC<LPProps> = ({lottoPubkey, onLottoPubkeyUpdated}) =>
             console.log('error', `Transaction failed! ${error?.message}`, signature);
             return;
         }
-    }, [publicKey, notify, connection, sendTransaction]);
+    }, [publicKey, notify, connection, sendTransaction, lottoPubkey]);
 
     return (
         <div className="flex flex-row justify-center">

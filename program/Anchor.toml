@@ -1,9 +1,9 @@
 [features]
 seeds = false
 [programs.devnet]
-lottery = "2AejTiqCJ5QxE7VsdF2WhGBVDrCeXmuubjni7jV8DbM7"
+lottery = "2oYZpVVZ4stDoTtiq4qcgHbcSY4js2RHiBtL1P4pifEV"
 [programs.localnet]
-lottery = "2AejTiqCJ5QxE7VsdF2WhGBVDrCeXmuubjni7jV8DbM7"
+lottery = "2oYZpVVZ4stDoTtiq4qcgHbcSY4js2RHiBtL1P4pifEV"
 
 [registry]
 url = "https://anchor.projectserum.com"

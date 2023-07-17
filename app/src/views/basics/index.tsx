@@ -1,5 +1,5 @@
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { SignMessage } from '../../components/SignMessage';
 import { InitializeLottery } from '../../components/InitializeLottery';
 import { SendVersionedTransaction } from '../../components/SendVersionedTransaction';
@@ -17,6 +17,9 @@ export interface LPProps {
 
 export const BasicsView: FC = ({ }) => {
   const [lottoPubkey, onLottoPubkeyUpdated] = useState(new PublicKey(0));
+  useEffect(() => {
+    console.log(lottoPubkey, '- Has changed')
+  },[lottoPubkey])
 
   return (
     <div className="md:hero mx-auto p-4">
@@ -30,7 +33,7 @@ export const BasicsView: FC = ({ }) => {
         <div className="text-center">
           {/* <SignMessage />
           <SendVersionedTransaction /> */}
-          <FindLottery lottoPubkey={lottoPubkey} onLottoPubkeyUpdated={onLottoPubkeyUpdated}/>
+          <FindLottery lottoPubkey={lottoPubkey} onLottoPubkeyUpdated={onLottoPubkeyUpdated} />
           <InitializeLottery lottoPubkey={lottoPubkey} onLottoPubkeyUpdated={onLottoPubkeyUpdated}/>
           <BuyTicket lottoPubkey={lottoPubkey} onLottoPubkeyUpdated={onLottoPubkeyUpdated}/>
           <DrawWinners lottoPubkey={lottoPubkey} onLottoPubkeyUpdated={onLottoPubkeyUpdated}/>
