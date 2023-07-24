@@ -46,22 +46,28 @@ describe("lottery", () => {
   let ticket_mint_pda: anchor.web3.PublicKey[] = [];
   let ticket_meta_pda: anchor.web3.PublicKey[] = [];
 
+  const LOTTO_NAME = "LotteryJJJ"
   const TICKET_COST = new anchor.BN(16666);
   const MIN_ENTRANTS = new anchor.BN(5);
   const MAX_ENTRANTS = new anchor.BN(100);
-  const END_TIME = new anchor.BN(1690000000);
+  let END_TIME: anchor.BN;
   const REWARDS = [80, 10, 5, 3, 2];
 
   let vault_rent;
 
   it("initialize", async () => {
+
+    END_TIME = new anchor.BN(await provider.connection.getBlockTime(await provider.connection.getSlot()) + 10000);
+
     // send initialize transaction
-    const tx = await program.methods.initialize(TICKET_COST, MIN_ENTRANTS, MAX_ENTRANTS, END_TIME, REWARDS).accounts({
+    const tx = await program.methods.initialize(LOTTO_NAME, TICKET_COST, MIN_ENTRANTS, MAX_ENTRANTS, END_TIME, REWARDS).accounts({
       signer: LOTTO_ORG_KP.publicKey,
       config: CONFIG_PDA,
       systemProgram: anchor.web3.SystemProgram.programId,
       configVault: C_VAULT_PDA,
-    }).rpc();
+    }).rpc({
+      skipPreflight: true,
+    });
     console.log("initialize transaction signature", tx);
     // console.log((await provider.connection.getAccountInfo(CONFIG_PDA)).data);
     // console.log(await program.account.config.fetch(CONFIG_PDA));
@@ -72,7 +78,10 @@ describe("lottery", () => {
     // fetch on chain data
     const config_acc = await program.account.config.fetch(CONFIG_PDA);
 
+    const nameString = String.fromCharCode.apply(null, config_acc.name);
+
     // check on chain results
+    assert.equal(nameString, LOTTO_NAME, "config_acc.name not set correctly");
     assert.equal(config_acc.authority.toBase58(), LOTTO_ORG_KP.publicKey.toBase58(), "config_acc.authority not set correctly");
     assert.equal(config_acc.ticketCost.toNumber(), TICKET_COST.toNumber(), "config_acc.ticketCost not set correctly");
     assert.equal(config_acc.minEntrants.toNumber(), MIN_ENTRANTS.toNumber(), "config_acc.minEntrants not set correctly");

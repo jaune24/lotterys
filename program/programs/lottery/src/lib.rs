@@ -5,7 +5,7 @@ use anchor_lang::prelude::*;
 use crate::instructions::*;
 
 
-declare_id!("2oYZpVVZ4stDoTtiq4qcgHbcSY4js2RHiBtL1P4pifEV");
+declare_id!("7MGoMVR54yM2JsoZhA4Q9ycaMDD2AC6D4ZzDRznob4k2");
 
 #[doc(hidden)]
 mod instructions; 
@@ -41,13 +41,14 @@ pub mod lottery {
     /// Transaction Fails: each address can only create 1 lottery
     pub fn initialize<'info>(
         ctx: Context<'_, '_, '_, 'info, Initialize<'info>>,
+        name: String,
         ticket_cost: u64,
         min_entrants: u64,
         max_entrants: u64,
         end_time: i64,
         rewards: [u8; 5],
     ) -> Result<()> {
-        initialize::handler(ctx, ticket_cost, min_entrants, max_entrants, end_time, rewards)
+        initialize::handler(ctx, name, ticket_cost, min_entrants, max_entrants, end_time, rewards)
     }
 
     /// Lottery players call this function to buy a lottery ticket. They will recieve a token, each with a unique mint.

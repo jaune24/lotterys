@@ -30,7 +30,9 @@ a {
 }
 
 .lotto-address-input {
-  color: darkblue
+  color: black;
+  background-color: rgb(198, 157, 248);
+  size: 5;
 }
 
 .lotto-address-input-button {
@@ -40,5 +42,10 @@ a {
   border-radius: 5%;
   margin-top: 2%;
   margin-bottom: 2%;
+}
+
+.init-lotto-border {
+  border: 2px solid rgb(72, 6, 204);
+  border-radius: 5%;
 }
 

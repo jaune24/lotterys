@@ -41,4 +41,7 @@ pub enum ErrorCode {
     
     #[msg("Lotto can't be closed until min_entrants is satisfied")] // custom program error: 0x177c (6012)
     NotEnoughEntrants,
+
+    #[msg("name length should be 10")] // custom program error: 0x177d (6013)
+    NameLengthErr,
 }

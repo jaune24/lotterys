@@ -3,6 +3,7 @@ use anchor_lang::prelude::*;
 #[account]
 pub struct Config {
     pub authority: Pubkey,
+    pub name: [u8; 10],
     pub ticket_cost: u64,
     pub min_entrants: u64,
     pub max_entrants: u64,
@@ -18,6 +19,6 @@ pub struct Config {
 
 impl Config {
     pub fn len() -> usize {
-        8 + 32 + 8 + 8 + 8 + 8 + 8 + (5 * 1) + (5 * 8) + (5 * 32) + 1 + 32 + 8
+        8 + 32 + (10 * 1) + 8 + 8 + 8 + 8 + 8 + (5 * 1) + (5 * 8) + (5 * 32) + 1 + 32 + 8
     }
 }

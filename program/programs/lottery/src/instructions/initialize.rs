@@ -28,6 +28,7 @@ pub struct Initialize<'info> {
 
 pub fn handler<'info>(
     ctx: Context<'_, '_, '_,'info, Initialize<'info>>,
+    name: String,
     ticket_cost: u64,
     min_entrants: u64,
     max_entrants: u64,
@@ -47,8 +48,15 @@ pub fn handler<'info>(
     if min_entrants < 5 {
         return Err(ErrorCode::BadMinEntrants.into());
     }
+    if name.len() != 10 {
+        return  Err(ErrorCode::NameLengthErr.into());
+    }
+
+    let name_u8: [u8; 10] = name.as_bytes().try_into().unwrap_or([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
     let config = &mut ctx.accounts.config;
     config.authority = ctx.accounts.signer.key();
+    config.name = name_u8;
     config.ticket_cost = ticket_cost;
     config.min_entrants = min_entrants;
     config.max_entrants = max_entrants;
